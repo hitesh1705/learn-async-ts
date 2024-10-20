@@ -1,1 +1,24 @@
 Explain the code execution based on the order of the messages logged in src/quiz/promise-2darray.txt.
+
+The promise immediately logs 'Sum called ...' when the function is called, but the actual summation happens 
+asynchronously inside setTimeout().
+
+When function is called with empty array, the promise is rejected right away, and 'Cannot sum an empty array' 
+is passed to the catch block, ensuring it does not proceed to the setTimeout.
+
+For non-empty arrays, the promise performs the summation asynchronously, and after the setTimeout(), the sum 
+is resolved and logged.
+
+The log 'Returning from sum' appears before the summation or rejection happens because the setTimeout() defers 
+the actual work to the event loop.
+
+
+The order of logs:
+
+"Sum called ..." and "returning from sum" are logged immediately.
+
+If empty array is passed, the error is logged after "Rejecting empty array."
+
+For non-empty arrays, the summation logs occur after a brief asynchronous delay.
+
+This makes code produce the expected result or error message.
