@@ -1,20 +1,18 @@
-function sumRow(row: number[]): Promise<number> {
-    return new Promise((resolve) => {
-        let rowSum = 0;
-        for (let num of row) {
-            rowSum += num;
-        }
-        resolve(rowSum);
-    });
+async function sumRow(row: number[]): Promise<number> {
+    let rowSum = 0;
+    for (let num of row) {
+        rowSum += num;
+    }
+    return rowSum;
 }
 
-function sum2D_Array(arr: number[][]): Promise<number> {
-    const rowSumPromises = arr.map(row => sumRow(row));
-    
-    return Promise.all(rowSumPromises).then((rowSums: number[]) => {
-        const totalSum = rowSums.reduce((acc, rowSum) => acc + rowSum, 0);
-        return totalSum;
-    });
+async function sum2D_Array(arr: number[][]): Promise<number> {
+    let totalSum = 0;
+    for (const row of arr) {
+        const rowSum = await sumRow(row);
+        totalSum += rowSum;
+    }
+    return totalSum;
 }
 
 const array2D_1 = [
@@ -23,10 +21,13 @@ const array2D_1 = [
     [7, 8, 9]
 ];
 
-sum2D_Array(array2D_1)
-    .then((sum) => {
-        console.log(`Total sum of array: ${sum}`);
-    })
-    .catch((error) => {
+async function sumArr(): Promise<void> {
+    try {
+        const totalSum = await sum2D_Array(array2D_1);
+        console.log(`Total sum of array: ${totalSum}`);
+    } catch (error) {
         console.error('Error:', error);
-    });
+    }
+}
+
+sumArr();
